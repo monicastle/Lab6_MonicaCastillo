@@ -72,7 +72,7 @@ public class SerVivo {
 
     @Override
     public String toString() {
-        return "SerVivo{" + "nombre=" + nombre + ", poder=" + poder + ", a\u00f1os=" + años + ", planeta=" + planeta + ", raza=" + raza + '}';
+        return nombre;
     }
 
 }

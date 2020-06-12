@@ -5,12 +5,15 @@
  */
 package lab.pkg6_monicacastillo;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -22,11 +25,8 @@ public class Universo {
     private File archivo = null;
     private ArrayList<SerVivo> seresvivos = new ArrayList();
 
-    public Universo() {
-    }
-
-    public Universo(String nombre) {
-        this.nombre = nombre;
+    public Universo(String path) {
+        archivo = new File(path);
     }
 
     public String getNombre() {
@@ -65,11 +65,11 @@ public class Universo {
             fw = new FileWriter(archivo, false);
             bw = new BufferedWriter(fw);
             for (SerVivo t : seresvivos) {
-                bw.write(t.getNombre() + ";");
-                bw.write(t.getPoder() + ";");
-                bw.write(t.getAños() + ";");
-                bw.write(t.getPlaneta() + ";");
-                bw.write(t.getRaza() + ";");
+                bw.write(t.getNombre() + "|");
+                bw.write(t.getPoder() + "|");
+                bw.write(t.getAños() + "|");
+                bw.write(t.getPlaneta() + "|");
+                bw.write(t.getRaza() + "|");
             }
             bw.flush();
         } catch (Exception e) {
@@ -79,7 +79,25 @@ public class Universo {
         fw.close();
     }
 
-    public void CargarArchivo() {
+    public void CargarArchivo(JTextArea TextArea) {
+        try {
+            FileReader fr = null;
+            BufferedReader br = null;
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                TextArea.append(linea);
+                TextArea.append("\n");
+            }
+            br.close();
+            fr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void CargarArchivo2() {
         Scanner entrada = null;
         seresvivos = new ArrayList();
         if (archivo.exists()) {

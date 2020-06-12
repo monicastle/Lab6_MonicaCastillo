@@ -6,9 +6,15 @@
 package lab.pkg6_monicacastillo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -62,8 +68,12 @@ public class Inicio extends javax.swing.JFrame {
         TablaSeresVivosEliminar = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         EliminarSerVivo = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
+        CBSeresVivos = new javax.swing.JComboBox<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        TablaDatosSeresVivos = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        GuardarArchivo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TextAreaArchivo = new javax.swing.JTextArea();
@@ -285,19 +295,78 @@ public class Inicio extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Eliminar Ser Vivo", jPanel3);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+        CBSeresVivos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBSeresVivosItemStateChanged(evt);
+            }
+        });
+
+        TablaDatosSeresVivos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Poder", "Años", "Planeta", "Raza"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(TablaDatosSeresVivos);
+
+        jLabel10.setText("Seres Vivos");
+
+        GuardarArchivo.setText("Guardar Archivo");
+        GuardarArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                GuardarArchivoMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(247, 247, 247)
+                                .addComponent(GuardarArchivo))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(169, 169, 169)
+                                .addComponent(CBSeresVivos, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(268, 268, 268)
+                .addComponent(jLabel10)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CBSeresVivos, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(GuardarArchivo)
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Datos", jPanel4);
-        jTabbedPane1.addTab("Guardar Archivo", jTabbedPane3);
+        jTabbedPane1.addTab("Guardar Archivo", jPanel6);
 
         TextAreaArchivo.setColumns(20);
         TextAreaArchivo.setRows(5);
@@ -357,33 +426,8 @@ public class Inicio extends javax.swing.JFrame {
 
     private void CargarArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarArchivoMouseClicked
         // TODO add your handling code here:
-        FileReader fr = null;
-        BufferedReader br = null;
-        TextAreaArchivo.setText("");
-        try {
-            JFileChooser filechooser = new JFileChooser("./");
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo de Texto", "txt");
-            filechooser.setFileFilter(filtro);
-            int seleccion = filechooser.showOpenDialog(this);
-            if (seleccion == JFileChooser.APPROVE_OPTION) {
-                selectedFile = filechooser.getSelectedFile();
-                fr = new FileReader(selectedFile);
-                br = new BufferedReader(fr);
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    TextAreaArchivo.append(linea);
-                    TextAreaArchivo.append("\n");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            br.close();
-            fr.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Universo u = new Universo(selectedFile.getPath());
+        u.CargarArchivo(TextAreaArchivo);
     }//GEN-LAST:event_CargarArchivoMouseClicked
 
     private void EliminarSerVivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarSerVivoMouseClicked
@@ -414,6 +458,10 @@ public class Inicio extends javax.swing.JFrame {
                         modelo.setValueAt(nombre, TablaSeresVivosModificar.getSelectedRow(), 0);
                         TablaSeresVivosModificar.setModel(modelo);
                         TablaSeresVivosEliminar.setModel(modelo);
+                        Universo uni = new Universo(selectedFile.getPath());
+                        uni.CargarArchivo(TextAreaArchivo);
+                        uni.getSeresvivos().get(TablaDatosSeresVivos.getSelectedRow()).setNombre(nombre);
+                        uni.EscribirArchivo();
                     } // Fin If
                     break;
                 case 1:
@@ -423,6 +471,10 @@ public class Inicio extends javax.swing.JFrame {
                         modelo1.setValueAt(poder, TablaSeresVivosModificar.getSelectedRow(), 1);
                         TablaSeresVivosModificar.setModel(modelo1);
                         TablaSeresVivosEliminar.setModel(modelo1);
+                        Universo uni = new Universo(selectedFile.getPath());
+                        uni.CargarArchivo2();
+                        uni.getSeresvivos().get(TablaSeresVivosModificar.getSelectedRow()).setPoder(poder);
+                        uni.EscribirArchivo();
                     } // Fin If
                     break;
                 case 2:
@@ -491,6 +543,9 @@ public class Inicio extends javax.swing.JFrame {
                 modelo.addRow(newrow);
                 TablaSeresVivosEliminar.setModel(modelo);
                 TablaSeresVivosModificar.setModel(modelo);
+                DefaultComboBoxModel cb = (DefaultComboBoxModel) CBSeresVivos.getModel();
+                cb.addElement(new SerVivo(nombre, poder, años, planeta, raza));
+                CBSeresVivos.setModel(cb);
                 JOptionPane.showMessageDialog(this, "Ser vivo agregado exitosamente");
                 NombreSerVivo.setText("");
                 PoderSerVivo.setText("");
@@ -511,6 +566,109 @@ public class Inicio extends javax.swing.JFrame {
         } // Fin Try Catch
     }//GEN-LAST:event_AgregarSerVivoMouseClicked
 
+    private void GuardarArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarArchivoMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel modeloy = (DefaultTableModel) TablaDatosSeresVivos.getModel();
+        if (modeloy.getRowCount() != 0) {
+            if (selectedFile != null) {
+                DefaultTableModel modelot = (DefaultTableModel) TablaDatosSeresVivos.getModel();
+                String acum = "";
+                for (int i = 0; i < modelot.getRowCount(); i++) {
+                    for (int j = 0; j < modelot.getColumnCount(); j++) {
+                        if (j == modelot.getColumnCount() - 1) {
+                            acum += modelot.getValueAt(i, j);
+                        } else {
+                            acum += modelot.getValueAt(i, j) + "|";
+                        }
+                    }
+                    acum += "\n";
+                }
+                FileWriter fw;
+                try {
+                    fw = new FileWriter(selectedFile);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(acum);
+                    bw.flush();
+                    JOptionPane.showMessageDialog(this, "¡Se han guardado los nuevos datos!");
+                    bw.close();
+                    fw.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                } // Fin Try Catch
+            } else {
+                JFileChooser jfc = new JFileChooser("./");
+                FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo de Texto", "txt");
+                jfc.setFileFilter(filtro);
+                int seleccion = jfc.showSaveDialog(this);
+                FileWriter fw = null;
+                BufferedWriter bw = null;
+                if (seleccion == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        if (jfc.getFileFilter().getDescription().equals("Archivo de Texto")) {
+                            selectedFile = new File(jfc.getSelectedFile().getPath() + ".txt");
+                        } else {
+                            selectedFile = jfc.getSelectedFile();
+                        } // Fin If
+                        fw = new FileWriter(selectedFile);
+                        bw = new BufferedWriter(fw);
+                        DefaultTableModel modelo = (DefaultTableModel) TablaDatosSeresVivos.getModel();
+                        String acum = "";
+                        for (int i = 0; i < modelo.getRowCount(); i++) {
+                            for (int j = 0; j < modelo.getColumnCount(); j++) {
+                                if (j == modelo.getColumnCount() - 1) {
+                                    acum += modelo.getValueAt(i, j);
+                                } else {
+                                    acum += modelo.getValueAt(i, j) + "|";
+                                }
+                            } // Fin For
+                            acum += "\n";
+                        } // Fin For
+                        bw.write(acum);
+                        bw.flush();
+                        JOptionPane.showMessageDialog(this, "¡Se ha guardado exitosamente el nuevo archivo!");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } // Fin Try Catch
+                    try {
+                        bw.close();
+                        fw.close();
+                    } catch (IOException io) {
+                        io.printStackTrace();
+                    } // Fin Try Catch
+                } // Fin If
+            } // Fin If
+        } else {
+            JOptionPane.showMessageDialog(this, "¡La tabla debe tener por lo menos 1 ser vivo!");
+        }
+    }//GEN-LAST:event_GuardarArchivoMouseClicked
+
+    private void CBSeresVivosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBSeresVivosItemStateChanged
+        // TODO add your handling code here:
+        try {
+            if (evt.getStateChange() == 2) {
+                SerVivo sv = (SerVivo) CBSeresVivos.getSelectedItem();
+                Object[] newrow = {sv.getNombre(), sv.getPoder(), sv.getAños(), sv.getPlaneta(), sv.getRaza()};
+                DefaultTableModel modelo = (DefaultTableModel) TablaDatosSeresVivos.getModel();
+                modelo.addRow(newrow);
+                TablaDatosSeresVivos.setModel(modelo);
+            } // Fin If
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrio un error y no se mostraron los datos");
+        } // Fin Try Catch
+
+    }//GEN-LAST:event_CBSeresVivosItemStateChanged
+
+//    private void Modificar(int pos) throws IOException {
+//
+//    }
+//
+//    private void Eliminar(int pos) {
+//        Universo uni = new Universo(selectedFile.getPath());
+//        am.cararArchivo();
+//        am.getListapersonas().remove(posi);
+//        ap.EscribirArchivo();
+//    }
     /**
      * @param args the command line arguments
      */
@@ -549,17 +707,21 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AgregarSerVivo;
     private javax.swing.JFormattedTextField AñosSerVivo;
+    private javax.swing.JComboBox<String> CBSeresVivos;
     private javax.swing.JButton CargarArchivo;
     private javax.swing.JButton EliminarSerVivo;
+    private javax.swing.JButton GuardarArchivo;
     private javax.swing.JComboBox<String> ModificarAtributo;
     private javax.swing.JTextField NombreSerVivo;
     private javax.swing.JTextField PlanetaSerVivo;
     private javax.swing.JFormattedTextField PoderSerVivo;
     private javax.swing.JComboBox<String> RazaSerVivo;
+    private javax.swing.JTable TablaDatosSeresVivos;
     private javax.swing.JTable TablaSeresVivosEliminar;
     private javax.swing.JTable TablaSeresVivosModificar;
     private javax.swing.JTextArea TextAreaArchivo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -571,13 +733,13 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane3;
     // End of variables declaration//GEN-END:variables
 static ArrayList<SerVivo> seresvivos = new ArrayList();
     File selectedFile = null;
