@@ -85,7 +85,7 @@ public class Universo {
         if (archivo.exists()) {
             try {
                 entrada = new Scanner(archivo);
-                entrada.useDelimiter(";");
+                entrada.useDelimiter("|");
                 while (entrada.hasNext()) {
                     seresvivos.add(new SerVivo(entrada.next(), entrada.nextInt(), entrada.nextInt(), entrada.next(), entrada.next()));
                 }

@@ -5,8 +5,13 @@
  */
 package lab.pkg6_monicacastillo;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -58,12 +63,11 @@ public class Inicio extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         EliminarSerVivo = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        TextAreaArchivo = new javax.swing.JTextArea();
+        CargarArchivo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -293,14 +297,18 @@ public class Inicio extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Datos", jPanel4);
-        jTabbedPane1.addTab("Abrir Archivo", jTabbedPane2);
         jTabbedPane1.addTab("Guardar Archivo", jTabbedPane3);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        TextAreaArchivo.setColumns(20);
+        TextAreaArchivo.setRows(5);
+        jScrollPane3.setViewportView(TextAreaArchivo);
 
-        jButton1.setText("Cargar Archivo");
+        CargarArchivo.setText("Cargar Archivo");
+        CargarArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CargarArchivoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -312,7 +320,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(262, 262, 262)
-                .addComponent(jButton1)
+                .addComponent(CargarArchivo)
                 .addContainerGap(261, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -321,11 +329,11 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(CargarArchivo)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Cargar Archivo", jPanel5);
+        jTabbedPane1.addTab("Abrir Archivo", jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -333,7 +341,7 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -347,42 +355,36 @@ public class Inicio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AgregarSerVivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarSerVivoMouseClicked
+    private void CargarArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarArchivoMouseClicked
         // TODO add your handling code here:
-        String nombre, planeta, raza;
-        int poder, años;
+        FileReader fr = null;
+        BufferedReader br = null;
+        TextAreaArchivo.setText("");
         try {
-            nombre = NombreSerVivo.getText();
-            poder = Integer.parseInt(PoderSerVivo.getText());
-            años = Integer.parseInt(AñosSerVivo.getText());
-            planeta = PlanetaSerVivo.getText();
-            raza = RazaSerVivo.getSelectedItem().toString();
-            if (poder >= 1 && poder <= 10) {
-                seresvivos.add(new SerVivo(nombre, poder, años, planeta, raza));
-                Object[] newrow = {nombre, poder, años, planeta, raza};
-                DefaultTableModel modelo = (DefaultTableModel) TablaSeresVivosEliminar.getModel();
-                modelo.addRow(newrow);
-                TablaSeresVivosEliminar.setModel(modelo);
-                TablaSeresVivosModificar.setModel(modelo);
-                JOptionPane.showMessageDialog(this, "Ser vivo agregado exitosamente");
-                NombreSerVivo.setText("");
-                PoderSerVivo.setText("");
-                AñosSerVivo.setText("");
-                PlanetaSerVivo.setText("");
-                RazaSerVivo.setSelectedIndex(0);
-            } else {
-                JOptionPane.showMessageDialog(this, "¡El poder debe ser de 1 a 10!");
-                NombreSerVivo.setText("");
-                PoderSerVivo.setText("");
-                AñosSerVivo.setText("");
-                PlanetaSerVivo.setText("");
-                RazaSerVivo.setSelectedIndex(0);
-            } // Fin If
+            JFileChooser filechooser = new JFileChooser("./");
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo de Texto", "txt");
+            filechooser.setFileFilter(filtro);
+            int seleccion = filechooser.showOpenDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                selectedFile = filechooser.getSelectedFile();
+                fr = new FileReader(selectedFile);
+                br = new BufferedReader(fr);
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    TextAreaArchivo.append(linea);
+                    TextAreaArchivo.append("\n");
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Ocurrio un error y no se guardaron los datos");
-        } // Fin Try Catch
-    }//GEN-LAST:event_AgregarSerVivoMouseClicked
+        }
+        try {
+            br.close();
+            fr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_CargarArchivoMouseClicked
 
     private void EliminarSerVivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarSerVivoMouseClicked
         // TODO add your handling code here:
@@ -472,6 +474,43 @@ public class Inicio extends javax.swing.JFrame {
         } // Fin Try Catch
     }//GEN-LAST:event_ModificarAtributoItemStateChanged
 
+    private void AgregarSerVivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarSerVivoMouseClicked
+        // TODO add your handling code here:
+        String nombre, planeta, raza;
+        int poder, años;
+        try {
+            nombre = NombreSerVivo.getText();
+            poder = Integer.parseInt(PoderSerVivo.getText());
+            años = Integer.parseInt(AñosSerVivo.getText());
+            planeta = PlanetaSerVivo.getText();
+            raza = RazaSerVivo.getSelectedItem().toString();
+            if (poder >= 1 && poder <= 10) {
+                seresvivos.add(new SerVivo(nombre, poder, años, planeta, raza));
+                Object[] newrow = {nombre, poder, años, planeta, raza};
+                DefaultTableModel modelo = (DefaultTableModel) TablaSeresVivosEliminar.getModel();
+                modelo.addRow(newrow);
+                TablaSeresVivosEliminar.setModel(modelo);
+                TablaSeresVivosModificar.setModel(modelo);
+                JOptionPane.showMessageDialog(this, "Ser vivo agregado exitosamente");
+                NombreSerVivo.setText("");
+                PoderSerVivo.setText("");
+                AñosSerVivo.setText("");
+                PlanetaSerVivo.setText("");
+                RazaSerVivo.setSelectedIndex(0);
+            } else {
+                JOptionPane.showMessageDialog(this, "¡El poder debe ser de 1 a 10!");
+                NombreSerVivo.setText("");
+                PoderSerVivo.setText("");
+                AñosSerVivo.setText("");
+                PlanetaSerVivo.setText("");
+                RazaSerVivo.setSelectedIndex(0);
+            } // Fin If
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrio un error y no se guardaron los datos");
+        } // Fin Try Catch
+    }//GEN-LAST:event_AgregarSerVivoMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -510,6 +549,7 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AgregarSerVivo;
     private javax.swing.JFormattedTextField AñosSerVivo;
+    private javax.swing.JButton CargarArchivo;
     private javax.swing.JButton EliminarSerVivo;
     private javax.swing.JComboBox<String> ModificarAtributo;
     private javax.swing.JTextField NombreSerVivo;
@@ -518,7 +558,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> RazaSerVivo;
     private javax.swing.JTable TablaSeresVivosEliminar;
     private javax.swing.JTable TablaSeresVivosModificar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextArea TextAreaArchivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -537,9 +577,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 static ArrayList<SerVivo> seresvivos = new ArrayList();
+    File selectedFile = null;
 }
