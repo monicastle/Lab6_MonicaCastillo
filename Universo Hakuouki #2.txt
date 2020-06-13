@@ -1,0 +1,10 @@
+Ryunosuke Ibuki|10|47|Edo|Amanto
+Shinpachi Nagakura|8|26|Edo|Humano
+Enomoto Takeaki|9|36|Marte|Amanto
+Genzaburou Inoue|4|30|Tierra|Humano
+Kimigiku|7|28|Jupiter|Amanto
+Susumu Yamazaki|8|23|Marte|Humano
+Sen-hime|2|19|Edo|Amanto
+Itou Kashitarou|9|32|Jupiter|Humano
+Kaoru Nagumo|6|17|Tierra|Amanto
+Kai Shimada|7|41|Mercurio|Humano

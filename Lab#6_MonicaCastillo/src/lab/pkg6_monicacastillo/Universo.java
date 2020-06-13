@@ -25,6 +25,9 @@ public class Universo {
     private File archivo = null;
     private ArrayList<SerVivo> seresvivos = new ArrayList();
 
+    public Universo() {
+    }
+
     public Universo(String path) {
         archivo = new File(path);
     }

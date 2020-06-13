@@ -438,6 +438,12 @@ public class Inicio extends javax.swing.JFrame {
                 modelo.removeRow(TablaSeresVivosEliminar.getSelectedRow());
                 TablaSeresVivosEliminar.setModel(modelo);
                 TablaSeresVivosModificar.setModel(modelo);
+                // Se supone que deberia eliminar del archivo pero no lo hace :(
+//                Universo uni = new Universo(selectedFile.getPath());
+//                uni.CargarArchivo(TextAreaArchivo);
+//                int pos = TablaSeresVivosEliminar.getSelectedRow();
+//                uni.getSeresvivos().remove(pos);
+//                uni.EscribirArchivo();
             } // Fin If
         } catch (Exception e) {
             e.printStackTrace();
@@ -458,10 +464,11 @@ public class Inicio extends javax.swing.JFrame {
                         modelo.setValueAt(nombre, TablaSeresVivosModificar.getSelectedRow(), 0);
                         TablaSeresVivosModificar.setModel(modelo);
                         TablaSeresVivosEliminar.setModel(modelo);
-                        Universo uni = new Universo(selectedFile.getPath());
-                        uni.CargarArchivo(TextAreaArchivo);
-                        uni.getSeresvivos().get(TablaDatosSeresVivos.getSelectedRow()).setNombre(nombre);
-                        uni.EscribirArchivo();
+//                        Universo uni = new Universo(selectedFile.getPath());
+//                        uni.CargarArchivo(TextAreaArchivo);
+//                        int pos = TablaSeresVivosModificar.getSelectedRow();
+//                        uni.getSeresvivos().get(pos).setNombre(nombre);
+//                        uni.EscribirArchivo();
                     } // Fin If
                     break;
                 case 1:
@@ -471,10 +478,11 @@ public class Inicio extends javax.swing.JFrame {
                         modelo1.setValueAt(poder, TablaSeresVivosModificar.getSelectedRow(), 1);
                         TablaSeresVivosModificar.setModel(modelo1);
                         TablaSeresVivosEliminar.setModel(modelo1);
-                        Universo uni = new Universo(selectedFile.getPath());
-                        uni.CargarArchivo2();
-                        uni.getSeresvivos().get(TablaSeresVivosModificar.getSelectedRow()).setPoder(poder);
-                        uni.EscribirArchivo();
+//                        Universo uni = new Universo(selectedFile.getPath());
+//                        uni.CargarArchivo(TextAreaArchivo);
+//                        int pos = TablaSeresVivosModificar.getSelectedRow();
+//                        uni.getSeresvivos().get(pos).setPoder(poder);
+//                        uni.EscribirArchivo();
                     } // Fin If
                     break;
                 case 2:
@@ -484,6 +492,11 @@ public class Inicio extends javax.swing.JFrame {
                         modelo2.setValueAt(años, TablaSeresVivosModificar.getSelectedRow(), 2);
                         TablaSeresVivosModificar.setModel(modelo2);
                         TablaSeresVivosEliminar.setModel(modelo2);
+//                        Universo uni = new Universo(selectedFile.getPath());
+//                        uni.CargarArchivo(TextAreaArchivo);
+//                        int pos = TablaSeresVivosModificar.getSelectedRow();
+//                        uni.getSeresvivos().get(pos).setAños(años);
+//                        uni.EscribirArchivo();
                     } // Fin If
                     break;
                 case 3:
@@ -493,6 +506,11 @@ public class Inicio extends javax.swing.JFrame {
                         modelo3.setValueAt(planeta, TablaSeresVivosModificar.getSelectedRow(), 3);
                         TablaSeresVivosModificar.setModel(modelo3);
                         TablaSeresVivosEliminar.setModel(modelo3);
+//                        Universo uni = new Universo(selectedFile.getPath());
+//                        uni.CargarArchivo(TextAreaArchivo);
+//                        int pos = TablaSeresVivosModificar.getSelectedRow();
+//                        uni.getSeresvivos().get(pos).setPlaneta(planeta);
+//                        uni.EscribirArchivo()
                     } // Fin If
                     break;
                 case 4:
@@ -505,12 +523,22 @@ public class Inicio extends javax.swing.JFrame {
                                 modelo4.setValueAt(raza, TablaSeresVivosModificar.getSelectedRow(), 4);
                                 TablaSeresVivosModificar.setModel(modelo4);
                                 TablaSeresVivosEliminar.setModel(modelo4);
+//                        Universo uni = new Universo(selectedFile.getPath());
+//                        uni.CargarArchivo(TextAreaArchivo);
+//                        int pos = TablaSeresVivosModificar.getSelectedRow();
+//                        uni.getSeresvivos().get(pos).setRaza(raza);
+//                        uni.EscribirArchivo()
                                 break;
                             case 2:
                                 raza = "Amanto";
                                 modelo4.setValueAt(raza, TablaSeresVivosModificar.getSelectedRow(), 4);
                                 TablaSeresVivosModificar.setModel(modelo4);
                                 TablaSeresVivosEliminar.setModel(modelo4);
+//                        Universo uni = new Universo(selectedFile.getPath());
+//                        uni.CargarArchivo(TextAreaArchivo);
+//                        int pos = TablaSeresVivosModificar.getSelectedRow();
+//                        uni.getSeresvivos().get(pos).setRaza(raza);
+//                        uni.EscribirArchivo()
                                 break;
                             default:
                                 JOptionPane.showMessageDialog(this, "Opcion no valida");
@@ -546,6 +574,9 @@ public class Inicio extends javax.swing.JFrame {
                 DefaultComboBoxModel cb = (DefaultComboBoxModel) CBSeresVivos.getModel();
                 cb.addElement(new SerVivo(nombre, poder, años, planeta, raza));
                 CBSeresVivos.setModel(cb);
+//                Universo uni = new Universo();
+                uni.getSeresvivos().add(new SerVivo(nombre, poder, años, planeta, raza));
+                System.out.println(uni.getSeresvivos());
                 JOptionPane.showMessageDialog(this, "Ser vivo agregado exitosamente");
                 NombreSerVivo.setText("");
                 PoderSerVivo.setText("");
@@ -579,10 +610,10 @@ public class Inicio extends javax.swing.JFrame {
                             acum += modelot.getValueAt(i, j);
                         } else {
                             acum += modelot.getValueAt(i, j) + "|";
-                        }
-                    }
+                        } // Fin If
+                    } // Fin For
                     acum += "\n";
-                }
+                } // Fin For
                 FileWriter fw;
                 try {
                     fw = new FileWriter(selectedFile);
@@ -619,7 +650,7 @@ public class Inicio extends javax.swing.JFrame {
                                     acum += modelo.getValueAt(i, j);
                                 } else {
                                     acum += modelo.getValueAt(i, j) + "|";
-                                }
+                                } // Fin If
                             } // Fin For
                             acum += "\n";
                         } // Fin For
@@ -659,16 +690,6 @@ public class Inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_CBSeresVivosItemStateChanged
 
-//    private void Modificar(int pos) throws IOException {
-//
-//    }
-//
-//    private void Eliminar(int pos) {
-//        Universo uni = new Universo(selectedFile.getPath());
-//        am.cararArchivo();
-//        am.getListapersonas().remove(posi);
-//        ap.EscribirArchivo();
-//    }
     /**
      * @param args the command line arguments
      */
@@ -742,5 +763,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 static ArrayList<SerVivo> seresvivos = new ArrayList();
+    static Universo uni = new Universo();
     File selectedFile = null;
 }

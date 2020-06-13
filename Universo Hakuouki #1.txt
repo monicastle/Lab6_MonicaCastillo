@@ -1,0 +1,10 @@
+Kyuujyu Amagiri|8|34|Jupiter|Amanto
+Yukimura Chizuru|10|18|Edo|Humano
+Chikage Kazama|4|21|Venus|Amanto
+Hijikata|9|35|Marte|Humano
+Shiranui Kyo|8|30|Tierra|Amanto
+Soji Okita|7|20|Shieikan|Humano
+Oume|5|31|Pluto|Amanto
+Hajime Saito|5|26|Edo|Humano
+Dr. Matsumoto|3|40|Saturno|Amanto
+Heisuke Todo|6|19|Tierra|Humano
